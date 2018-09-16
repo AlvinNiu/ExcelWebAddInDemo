@@ -1,0 +1,5 @@
+packages/
+MyExcelWebAddIn/obj/
+MyExcelWebAddIn/bin/
+.vs/
+myvueweb/.history/
