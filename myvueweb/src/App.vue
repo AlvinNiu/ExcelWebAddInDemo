@@ -6,7 +6,8 @@
     <button @click="read">读取</button>
     <button @click="deleteOne">删除</button>
     <button @click="clear">清空</button>
-
+    <button @click="insertPrice">插入价格数据</button>
+    <button @click="insertChart">插入图表</button>
     <div>{{content}}</div>
     <div>{{numberFormat}}</div>
   </div>
@@ -41,15 +42,15 @@ export default {
           ['Almonds', '2', '7.5', '15'],
           ['Coffee', '1', '34.5', '34.5'],
           ['Chocolate', '5', '9.56', '47.8'],
-          ['', '', '', '97.3']
+          ['ChengZhi', '6', '7', '97.3']
         ]
         //此二维数组的长度要和数据的保持一致，否则无效
         var formats = [
           ['@', '@', '@', '@'], //设置格式为文本
-          ['0.00', '0.00', '0.00', '0.00'],
-          ['0.00', '0.00', '0.00', '0.00'],
-          ['0.00', '0.00', '0.00', '0.00'],
-          ['0.00', '0.00', '0.00', '0.00']
+          ['@', '0.00', '0.00', '0.00'],
+          ['@', '0.00', '0.00', '0.00'],
+          ['@', '0.00', '0.00', '0.00'],
+          ['@', '0.00', '0.00', '0.00']
         ]
 
         var range = sheet.getRange('A1:D5')
@@ -121,11 +122,69 @@ export default {
         return context.sync()
       }).catch(_this.errorHandler)
     },
+    charting: function() {
+      Excel.run(function(context) {
+        var sheet = context.workbook.worksheets.getActiveWorksheet()
+        var dataRange = sheet.getRange('A1:C5')
+        var chart = sheet.charts.add('ColumnClustered', dataRange, 'auto')
+        chart.title.text = 'Sales Data'
+        chart.legend.position = 'right'
+        chart.legend.format.fill.setSolidColor('white')
+        chart.dataLabels.format.font.size = 15
+        chart.dataLabels.format.font.color = 'black'
+        dataRange = sheet.getRange('D2:D5')
+        var newSeries = chart.series.add('Total Price')
+        newSeries.setValues(dataRange)
+        newSeries.chartType = 'Line'
+        newSeries.axisGroup = 'Secondary'
+        return context.sync()
+      }).catch(errorHandler)
+    },
+    insertPrice: function() {
+      Excel.run(function(context) {
+        //获取当前活动工作薄
+        var sheet = context.workbook.worksheets.getActiveWorksheet()
+        var data = [
+          ['', '水果', '蔬菜', '房子'],
+          ['2015', '4', '3.2', '10000'],
+          ['2016', '4.5', '4.1', '15000'],
+          ['2017', '4.8', '4.2', '20000'],
+          ['2018', '5.2', '4.9', '30000']
+        ]
+        var range = sheet.getRange('A1:D5')
+        //表示加载values属性，如果不加载在下面是不可以使用的
+        range.load('values')
+        return context.sync().then(function() {
+          //写入方法必须在该方法内执行才有效
+          range.values = data
+        })
+      }).catch(_this.errorHandler)
+    },
+    insertChart: function() {
+      Excel.run(function(context) {
+        var sheet = context.workbook.worksheets.getActiveWorksheet()
+        var dataRange = sheet.getRange('A1:D5')
+        var chart = sheet.charts.add('Line', dataRange, 'auto')
+        chart.title.text = 'Sales Data'
+        chart.legend.position = 'right'
+        chart.legend.format.fill.setSolidColor('white')
+        chart.dataLabels.format.font.size = 15
+        chart.dataLabels.format.font.color = 'black'
+        let serie = chart.series.getItemAt(2) //获取第三个系列
+        serie.load('axisGroup') //由于我要设置这个属性，所以此处我要加载这个属性
+        chart.load('axes')
+        return context.sync().then(function() {
+          serie.axisGroup = 'Secondary'
+          serie.chartType = 'ColumnClustered'
+          chart.axes.getItem('Value', 'Secondary').displayUnit = 'Hundreds' //设置单位为百
+        })
+      }).catch(errorHandler)
+    },
     /**
      * 操作excel的方法出现异常时调用的方法
      */
     errorHandler: function(ex) {
-      alert(ex)
+      this.$Message.error(ex)
     }
   }
 }

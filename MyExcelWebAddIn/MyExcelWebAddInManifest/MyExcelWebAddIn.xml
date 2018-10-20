@@ -20,12 +20,12 @@
   <DisplayName DefaultValue="MyExcelWebAddIn" />
   <Description DefaultValue="MyExcelWebAddIn"/>
   <!-- 外接程序的图标。用于安装屏幕和外接程序对话框中。 -->
-  <IconUrl DefaultValue="http://localhost:8081/Images/Button32x32.png" />
+  <IconUrl DefaultValue="http://localhost:8080/Images/Button32x32.png" />
 
   <SupportUrl DefaultValue="http://www.contoso.com" />
   <!-- 导航时允许使用的域。例如，如果使用 ShowTaskpane，然后得到一个 href 链接，则只有在此列表上存在该域时，才允许导航。 -->
   <AppDomains>
-    <AppDomain>http://localhost:8081</AppDomain>
+    <AppDomain>http://localhost:8080</AppDomain>
   </AppDomains>
   <!--结束基本设置。 -->
   
@@ -34,7 +34,7 @@
     <Host Name="Workbook" />
   </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="http://localhost:8081" />
+    <SourceLocation DefaultValue="http://localhost:8080" />
   </DefaultSettings>
   <!-- 结束任务窗格模式集成。  -->
 
@@ -113,13 +113,13 @@
     <!-- 你可以在主机和窗体上使用资源。 -->
     <Resources>
       <bt:Images>
-        <bt:Image id="Contoso.tpicon_16x16" DefaultValue="http://localhost:8081/Images/Button16x16.png" />
-        <bt:Image id="Contoso.tpicon_32x32" DefaultValue="http://localhost:8081/Images/Button32x32.png" />
-        <bt:Image id="Contoso.tpicon_80x80" DefaultValue="http://localhost:8081/Images/Button80x80.png" />
+        <bt:Image id="Contoso.tpicon_16x16" DefaultValue="http://localhost:8080/Images/Button16x16.png" />
+        <bt:Image id="Contoso.tpicon_32x32" DefaultValue="http://localhost:8080/Images/Button32x32.png" />
+        <bt:Image id="Contoso.tpicon_80x80" DefaultValue="http://localhost:8080/Images/Button80x80.png" />
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="Contoso.DesktopFunctionFile.Url" DefaultValue="http://localhost:8081/Functions/FunctionFile.html" />
-        <bt:Url id="Contoso.Taskpane.Url" DefaultValue="http://localhost:8081/Home.html" />
+        <bt:Url id="Contoso.DesktopFunctionFile.Url" DefaultValue="http://localhost:8080/Functions/FunctionFile.html" />
+        <bt:Url id="Contoso.Taskpane.Url" DefaultValue="http://localhost:8080/Home.html" />
         <bt:Url id="Contoso.GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812" />
       </bt:Urls>
       <!-- ShortStrings 最大字符数==125。 -->
